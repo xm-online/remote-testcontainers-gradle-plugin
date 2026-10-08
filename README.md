@@ -2,6 +2,21 @@
 
 Runs your Testcontainers-based Gradle tests against a container engine on a remote host, over your own `ssh`. One switch turns it on. Without the switch the plugin does nothing.
 
+## Why
+
+Testcontainers needs a local Docker engine. That is a problem when:
+
+- the laptop is too small for heavy containers (databases, Kafka, Elasticsearch);
+- Docker Desktop is not allowed, or licensing makes it costly;
+- the machine is Apple Silicon and the images are amd64-only;
+- the team already owns a shared or personal build server.
+
+Existing options need a Docker API exposed on the network (`tcp://`, TLS) or a cloud service. This plugin needs only what you already have: key-based `ssh` access to a host running Docker. No daemon port is opened, no credentials are stored, no ssh trust settings are changed.
+
+## Who it is for
+
+Any Gradle project (Java, Kotlin, Spring Boot, Quarkus) that uses Testcontainers for Java and wants its tests to run containers on a remote machine. Nothing in the plugin is specific to one company or framework.
+
 ## Usage
 
 1. Apply the plugin in the **root** project (applying it to a subproject stops the build with `not_root_project`).

@@ -19,13 +19,16 @@ public abstract class RemoteTcSetupTask extends DefaultTask {
     /** Test-only: shortens the setup time limit through a system property of the Gradle daemon. */
     static final String TIMEOUT_PROPERTY = "remotetc.test.setupTimeoutSeconds";
 
+    /** Creates the task; it is registered by {@link RemoteTcPlugin}, not by hand. */
     public RemoteTcSetupTask() {
         doNotTrackState("the Tunnel is per build, so setup must run every time");
     }
 
+    /** @return the build's Tunnel service that this task opens */
     @Internal
     public abstract Property<TunnelService> getService();
 
+    /** @return the raw Remote host address, {@code ssh://user@host[:port]}, from {@code remoteTc.host} */
     @Input
     @Optional
     public abstract Property<String> getHost();
@@ -35,6 +38,7 @@ public abstract class RemoteTcSetupTask extends DefaultTask {
         return Math.max(1, Math.min(DEFAULT_TIMEOUT_SECONDS, Integer.getInteger(TIMEOUT_PROPERTY, DEFAULT_TIMEOUT_SECONDS)));
     }
 
+    /** Validates the host, opens the Tunnel and checks that the engine answers; fails with a named reason. */
     @TaskAction
     public void setup() {
         Deadline deadline = Deadline.after(Duration.ofSeconds(timeoutSeconds()));

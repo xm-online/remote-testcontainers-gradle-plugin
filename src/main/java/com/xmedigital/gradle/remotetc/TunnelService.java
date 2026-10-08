@@ -15,6 +15,7 @@ public abstract class TunnelService implements BuildService<TunnelService.Params
 
     /** Parameters: the raw Remote host address, validated when the Tunnel opens (not at creation). */
     public interface Params extends BuildServiceParameters {
+        /** @return the raw Remote host address, {@code ssh://user@host[:port]} */
         Property<String> getHost();
     }
 
