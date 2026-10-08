@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.xmedigital.gradle.remotetc"
-version = "0.1.1"
+version = "0.1.2"
 
 repositories {
     mavenCentral()
